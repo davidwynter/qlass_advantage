@@ -8,7 +8,7 @@ from dummy_sim_env import DummyEnvSimulator
 # Import your custom environments.
 # For example, if you have a health treatment simulator in health_treatment_env.py:
 try:
-    from cph_treatment_env import CPTreatmentEnv
+    from cp_treatment_env import CPTreatmentEnv
 except ImportError:
     CPTreatmentEnv = None  # Fallback if custom env is unavailable
 
@@ -199,7 +199,7 @@ def main():
         # You might need to add an embedding conversion if the state is textual.
     else:
         # Fallback to a dummy environment simulator.
-        from dummy_env import DummyEnvSimulator  # Assume you have this module.
+        from dummy_sim_env import DummyEnvSimulator  # Assume you have this module.
         env = DummyEnvSimulator()
 
     # Reset the environment to get the initial state.
