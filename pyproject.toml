@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "advantage-qlass"
+version = "0.1.0"
+description = "Boosting LLM inference using Advantage-Guided QLASS with exploration trees and OpenAI API integration."
+authors = [
+    { name = "David Wynter", email = "stpdave@gmail.com" }
+]
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=1.18.0",
+    "torch>=1.7.0",
+    "openai>=0.27.0"
+]
