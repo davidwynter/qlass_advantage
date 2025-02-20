@@ -4,6 +4,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from dummy_sim_env import DummyEnvSimulator
+from llm_policy import agent_policy
 
 # Import your custom environments.
 # For example, if you have a health treatment simulator in health_treatment_env.py:
@@ -64,34 +65,6 @@ class DuelingAdvantageNet(nn.Module):
 import openai
 openai.api_key = "your_openai_api_key_here"
 
-def agent_policy(state, num_actions=4):
-    """
-    Convert a given state (assumed to be convertible to string) to a prompt and call the OpenAI API.
-    Returns a discrete action (0,1,..., num_actions-1).
-    """
-    # Convert the state to string. For a numerical state, we can format it as needed.
-    state_str = str(state)
-    prompt = (
-        f"Given the following state:\n{state_str}\n"
-        f"Select the best action from 0, 1, 2, 3. "
-        "Return only the integer action."
-    )
-    
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a decision-making agent for a business healthcare task."},
-            {"role": "user", "content": prompt}
-        ],
-        temperature=0.0,
-        max_tokens=5,
-    )
-    action_text = response["choices"][0]["message"]["content"].strip()
-    try:
-        action = int(action_text)
-    except ValueError:
-        action = 0
-    return action
 
 # --- Exploration Tree Infrastructure ---
 class TreeNode:
