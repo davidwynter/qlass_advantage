@@ -47,7 +47,7 @@ Advantage-Guided QLASS is an end-to-end system that boosts LLM inference by comb
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/yourusername/advantage-qlass.git
+   git clone https://github.com/davidwynter/advantage-qlass.git
    cd advantage-qlass
    ```
 
