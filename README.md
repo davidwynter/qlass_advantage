@@ -9,7 +9,7 @@ Advantage-Guided QLASS is an end-to-end system that boosts LLM inference by comb
   Implements a neural network with a shared feature extractor and separate value and advantage heads. This network is trained using a temporal-difference (TD) loss, with the goal of learning a fine-grained advantage function for guiding inference.
 
 - **LLM Policy via OpenAI API:**  
-  Replaces a dummy policy network by querying a configurable OpenAI language model (e.g., `gpt-3.5-turbo`) to decide on actions. The current state is converted into a string prompt, and the API’s response is parsed as a discrete action.
+  Replaces a dummy policy network by querying a configurable OpenAI language model (e.g., `o4-mini`) to decide on actions. The current state is converted into a string prompt, and the API’s response is parsed as a discrete action.
 
 - **Boosted Inference:**  
   Once trained, the advantage network is used to guide inference. Actions are selected based on the highest predicted advantage, leading to improved decision-making during multi-step planning.
@@ -26,7 +26,7 @@ Advantage-Guided QLASS is an end-to-end system that boosts LLM inference by comb
 
 3. **LLM Policy Integration:**  
    - Converts a given state (e.g., a NumPy array) into a string prompt.
-   - Queries the OpenAI API (e.g., using the `gpt-3.5-turbo` model) to obtain an action decision.
+   - Queries the OpenAI API (e.g., using the `o4-mini` model) to obtain an action decision.
    - Parses and returns the chosen action.
 
 4. **End-to-End Pipeline:**  
@@ -109,7 +109,7 @@ python main.py
   Modify parameters such as `input_dim`, `hidden_dim`, `num_actions`, `gamma`, and `learning_rate` to suit your problem.
 
 - **LLM API Settings:**  
-  In the `agent_policy` function, you can adjust the prompt, model (e.g., `gpt-3.5-turbo`), temperature, and other parameters.
+  In the `agent_policy` function, you can adjust the prompt, model (e.g., `o4-mini`), temperature, and other parameters.
 
 ## Project Structure
 

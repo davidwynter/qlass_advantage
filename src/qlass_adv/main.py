@@ -3,13 +3,15 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from dummy_sim_env import DummyEnvSimulator
-from llm_policy import agent_policy
+from transformers import AutoModel, AutoTokenizer
+from qlass_adv.dummy_sim_env import DummyEnvSimulator
+from qlass_adv.dueling_adv_net import DuelingAdvantageNet
+from qlass_adv.llm_policy import agent_policy
 
 # Import your custom environments.
 # For example, if you have a health treatment simulator in health_treatment_env.py:
 try:
-    from cp_treatment_env import CPTreatmentEnv
+    from qlass_adv.cp_treatment_env import CPTreatmentEnv
 except ImportError:
     CPTreatmentEnv = None  # Fallback if custom env is unavailable
 
@@ -31,39 +33,6 @@ def text_to_embedding(text):
     # Mean pooling over the sequence dimension.
     embeddings = outputs.last_hidden_state.mean(dim=1)
     return embeddings.squeeze(0).numpy()
-
-
-# --- Dueling Advantage Network (from previous design) ---
-class DuelingAdvantageNet(nn.Module):
-    def __init__(self, input_dim, hidden_dim, num_actions):
-        super(DuelingAdvantageNet, self).__init__()
-        self.feature = nn.Sequential(
-            nn.Linear(input_dim, hidden_dim),
-            nn.ReLU()
-        )
-        # Value head: estimates V(s)
-        self.value_head = nn.Sequential(
-            nn.Linear(hidden_dim, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, 1)
-        )
-        # Advantage head: estimates A(s, a)
-        self.advantage_head = nn.Sequential(
-            nn.Linear(hidden_dim, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, num_actions)
-        )
-        
-    def forward(self, x):
-        features = self.feature(x)
-        value = self.value_head(features)                   # shape: (batch, 1)
-        advantages = self.advantage_head(features)            # shape: (batch, num_actions)
-        q_values = value + advantages - advantages.mean(dim=1, keepdim=True)
-        return q_values, value, advantages
-
-# --- Agent Policy using OpenAI API ---
-import openai
-openai.api_key = "your_openai_api_key_here"
 
 
 # --- Exploration Tree Infrastructure ---
@@ -172,7 +141,6 @@ def main():
         # You might need to add an embedding conversion if the state is textual.
     else:
         # Fallback to a dummy environment simulator.
-        from dummy_sim_env import DummyEnvSimulator  # Assume you have this module.
         env = DummyEnvSimulator()
 
     # Reset the environment to get the initial state.

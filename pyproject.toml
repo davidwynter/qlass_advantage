@@ -1,17 +1,27 @@
-[build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
+[tool.poetry]
+name = "qlass_advantage"
+version = "0.1.0"
+description = ""
+packages = [
+    { include = "qlass_adv", from = "src" }
+]
 
 [project]
 name = "advantage-qlass"
 version = "0.1.0"
 description = "Boosting LLM inference using Advantage-Guided QLASS with exploration trees and OpenAI API integration."
 authors = [
-    { name = "David Wynter", email = "stpdave@gmail.com" }
+    { name = "David Wynter", email = "daed@yambina.com" }
 ]
 license = { text = "MIT" }
-dependencies = [
-    "numpy>=1.18.0",
-    "torch>=1.7.0",
-    "openai>=0.27.0"
-]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.12"
+numpy = ">=1.26.4"
+torch = ">=1.7.0"
+openai = ">=1.58.1"
+transformers = "4.51.3"
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
